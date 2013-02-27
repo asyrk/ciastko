@@ -25,6 +25,16 @@ namespace WpfApplication1
             _Root.Header = disk;
             threads = new List<Thread>();
             ReadDirectories(new DirectoryInfo(disk), _Root);
+            _Root.Files = new DirectoryInfo(disk).GetFiles("*", SearchOption.TopDirectoryOnly);
+            foreach (FileInfo file in _Root.Files)
+            {
+                _Root.size += file.Length;
+                TotalSize += file.Length;
+            }
+            foreach (DirectoryTreeViewItem tmpD in _Root.Items)
+            {
+                _Root.size += tmpD.size;
+            }
             //foreach (DirectoryInfo d in new DirectoryInfo(disk).GetDirectories("*", SearchOption.TopDirectoryOnly))
             //{
                 //DirectoryTreeViewItem tmpNode = new DirectoryTreeViewItem();
@@ -49,7 +59,8 @@ namespace WpfApplication1
                     tmpNode.Header = dir.Name;
                     parent.Items.Add(tmpNode);
                     ReadDirectories(dir, tmpNode);
-                    foreach (FileInfo file in dir.GetFiles("*", SearchOption.TopDirectoryOnly))
+                    tmpNode.Files = dir.GetFiles("*", SearchOption.TopDirectoryOnly);
+                    foreach (FileInfo file in tmpNode.Files)
                     {
                         tmpNode.size += file.Length;
                         TotalSize += file.Length;

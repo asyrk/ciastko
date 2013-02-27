@@ -56,9 +56,25 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DirectoryTreeViewItem.cs" />
-    <Compile Include="Testing.xaml.cs">
-      <DependentUpon>Testing.xaml</DependentUpon>
+    <Compile Include="DiskSelectControl.xaml.cs">
+      <DependentUpon>DiskSelectControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DiskSelectDialog.xaml.cs">
+      <DependentUpon>DiskSelectDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PartitionInfo.cs" />
+    <Compile Include="PartitionListData.cs" />
+    <Compile Include="Syr_Testing.xaml.cs">
+      <DependentUpon>Syr_Testing.xaml</DependentUpon>
+    </Compile>
+    <Page Include="DiskSelectControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DiskSelectDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,7 +88,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Testing.xaml">
+    <Page Include="Syr_Testing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

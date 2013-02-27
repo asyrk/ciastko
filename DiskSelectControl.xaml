@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="WpfApplication1.DiskSelectControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="222" d:DesignWidth="426">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="21*" />
+            <RowDefinition Height="201*" />
+        </Grid.RowDefinitions>
+        <ListView Margin="12" Name="listView1" SelectionMode="Single" Grid.RowSpan="2" ItemsSource="{Binding Partitions}" SelectionChanged="listView1_SelectionChanged">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn Header="Disk" DisplayMemberBinding="{Binding Path=Name}"/>
+                    <GridViewColumn Header="Total Space" DisplayMemberBinding="{Binding Path=TotalSpace}"/>
+                    <GridViewColumn Header="Used Space" DisplayMemberBinding="{Binding Path=UsedSpace}"/>
+                    <GridViewColumn Header="Free Space" DisplayMemberBinding="{Binding Path=FreeSpace}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>
