@@ -22,12 +22,11 @@ namespace WpfApplication1
         public DiskSelectDialog()
         {
             InitializeComponent();
-            this.contentControl1.Content = new DiskSelectControl();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            SelectedDrive = ((DiskSelectControl)this.contentControl1.Content).SelectedDrive;
+            SelectedDrive = this.diskSelectControl1.SelectedDrive;
             this.Close();
         }
     }
