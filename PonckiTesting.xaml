@@ -1,0 +1,8 @@
+﻿<Window x:Class="WpfApplication1.PonckiTesting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PonckiTesting" Height="300" Width="300" xmlns:my="clr-namespace:WpfApplication1">
+    <Grid>
+        <my:PiePanel Height="261" HorizontalAlignment="Left" VerticalAlignment="Top" Width="278" />
+    </Grid>
+</Window>

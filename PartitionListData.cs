@@ -20,12 +20,15 @@ namespace WpfApplication1
             foreach (String drive in drives)
             {
                 DriveInfo dInfo = new DriveInfo(drive);
-                PartitionInfo tmp = new PartitionInfo();
-                tmp.FreeSpace = dInfo.AvailableFreeSpace;
-                tmp.Name = drive;
-                tmp.TotalSpace = dInfo.TotalSize;
-                tmp.UsedSpace = tmp.TotalSpace - tmp.FreeSpace;
-                _Partitions.Add(tmp);
+                if (dInfo.IsReady)
+                {
+                    PartitionInfo tmp = new PartitionInfo();
+                    tmp.FreeSpace = dInfo.AvailableFreeSpace;
+                    tmp.Name = drive;
+                    tmp.TotalSpace = dInfo.TotalSize;
+                    tmp.UsedSpace = tmp.TotalSpace - tmp.FreeSpace;
+                    _Partitions.Add(tmp);
+                }
             }
         }
 
