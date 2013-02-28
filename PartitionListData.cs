@@ -22,11 +22,7 @@ namespace WpfApplication1
                 DriveInfo dInfo = new DriveInfo(drive);
                 if (dInfo.IsReady)
                 {
-                    PartitionInfo tmp = new PartitionInfo();
-                    tmp.FreeSpace = dInfo.AvailableFreeSpace;
-                    tmp.Name = drive;
-                    tmp.TotalSpace = dInfo.TotalSize;
-                    tmp.UsedSpace = tmp.TotalSpace - tmp.FreeSpace;
+                    PartitionInfo tmp = new PartitionInfo(drive, dInfo.TotalSize, dInfo.TotalSize - dInfo.AvailableFreeSpace, dInfo.AvailableFreeSpace);
                     _Partitions.Add(tmp);
                 }
             }

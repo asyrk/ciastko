@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="222" d:DesignWidth="426">
+             d:DesignHeight="201" d:DesignWidth="654">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="21*" />
@@ -17,6 +17,16 @@
                     <GridViewColumn Header="Total Space" DisplayMemberBinding="{Binding Path=TotalSpace}"/>
                     <GridViewColumn Header="Used Space" DisplayMemberBinding="{Binding Path=UsedSpace}"/>
                     <GridViewColumn Header="Free Space" DisplayMemberBinding="{Binding Path=FreeSpace}"/>
+                    <GridViewColumn Header="Bar">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Canvas Width="110" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <ProgressBar Width="100" Height="20"  Maximum="{Binding TotalSpace}" Value="{Binding UsedSpace}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Percentage}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Width="100" Height="20"/>
+                                </Canvas>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
