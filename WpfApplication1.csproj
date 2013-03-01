@@ -64,7 +64,7 @@
     </Compile>
     <Compile Include="PartitionInfo.cs" />
     <Compile Include="PartitionListData.cs" />
-    <Compile Include="PiePanel.cs" />
+    <Compile Include="PieCanvas.cs" />
     <Compile Include="PiePice.cs" />
     <Compile Include="PonckiTesting.xaml.cs">
       <DependentUpon>PonckiTesting.xaml</DependentUpon>
