@@ -65,7 +65,7 @@
     <Compile Include="DrobnyTesting.xaml.cs" />
     <Compile Include="PartitionInfo.cs" />
     <Compile Include="PartitionListData.cs" />
-    <Compile Include="PieCanvas.cs" />
+    <Compile Include="PieChart.cs" />
     <Compile Include="PiePice.cs" />
     <Compile Include="PonckiTesting.xaml.cs">
       <DependentUpon>PonckiTesting.xaml</DependentUpon>
