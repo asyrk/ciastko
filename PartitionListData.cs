@@ -28,7 +28,5 @@ namespace WpfApplication1
             }
         }
 
-
-
     }
 }
