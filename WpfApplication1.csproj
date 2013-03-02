@@ -62,6 +62,7 @@
     <Compile Include="DiskSelectDialog.xaml.cs">
       <DependentUpon>DiskSelectDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DrobnyTesting.xaml.cs" />
     <Compile Include="PartitionInfo.cs" />
     <Compile Include="PartitionListData.cs" />
     <Compile Include="PieCanvas.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="Syr_Testing.xaml.cs">
       <DependentUpon>Syr_Testing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TreeChart.cs" />
+    <Compile Include="TreeElement.cs" />
     <Page Include="DiskSelectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -79,6 +82,10 @@
     <Page Include="DiskSelectDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DrobnyTesting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
