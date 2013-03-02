@@ -40,17 +40,24 @@ namespace WpfApplication1
             set { beginArc = value; }
         }
 
-        private double sizeArc;
-        public double SizeArc
+        private double sweepArc;
+        public double SweepArc
         {
-            get { return sizeArc; }
-            set { sizeArc = value; }
+            get { return sweepArc; }
+            set { sweepArc = value; }
         }
 
         private Color col;
         public Color Color
         {
             get { return col; }
+        }
+
+        private bool selected;
+        public bool Selected
+        {
+            get { return selected; }
+            set { selected = value; }
         }
 
         public PiePice(string n, long s)
@@ -61,7 +68,7 @@ namespace WpfApplication1
 
         public override string ToString()
         {
-            return id + ": " + name + ", size: " + sizeRel + ", arc size: " + sizeArc;
+            return id + ": " + name + ", size: " + sizeRel + ", arc size: " + sweepArc;
         }
 
         public static Color[] COLOR_TAB = { Colors.BlueViolet, Colors.DarkOrange, Colors.DarkKhaki, Colors.Firebrick, Colors.LightCoral, Colors.LemonChiffon,
