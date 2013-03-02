@@ -7,8 +7,6 @@ using System.IO;
 using System.Threading;
 using System.ComponentModel;
 
-//push test..
-
 namespace WpfApplication1
 {
     public class Analizer
