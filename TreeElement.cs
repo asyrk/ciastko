@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 
 namespace WpfApplication1
 {
-	class TreeElement : Rectangle
+	class TreeElement //: Rectangle
 	{
 		private int id;
 		private int branchId;

@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace WpfApplication1
 {
-    class PieCanvas : Canvas
+    class PieChart : Canvas
     {
         private List<PiePice> pcs = new List<PiePice>();
 
@@ -36,22 +36,17 @@ namespace WpfApplication1
             }
         }
 
-        public PieCanvas()
+        public PieChart()
+        {
+        }
+
+        public void SetDirectory(DirectoryTreeViewItem[] tab)
         {
             List<PiePice> p = new List<PiePice>();
-            p.Add(new PiePice("C:/", 11));
-            p.Add(new PiePice("C:/", 12));
-            p.Add(new PiePice("C:/", 13));
-            p.Add(new PiePice("C:/", 14));
-            p.Add(new PiePice("C:/", 15));
-            p.Add(new PiePice("C:/", 16));
-            p.Add(new PiePice("C:/", 17));
-            p.Add(new PiePice("C:/", 18));
-            p.Add(new PiePice("C:/", 19));
-            p.Add(new PiePice("C:/", 20));
-            p.Add(new PiePice("C:/", 21));
-            p.Add(new PiePice("C:/", 22));
-            p.Add(new PiePice("C:/", 30));
+            foreach (var ti in tab)
+            {
+                p.Add(new PiePice(ti.Name,ti.size));
+            }
             Pieces = p;
         }
 
@@ -127,7 +122,6 @@ namespace WpfApplication1
             Size newSize = new Size(width, height);
             Width = width;
             Height = height; 
-            InvalidateVisual();
             return newSize;
         }
         
