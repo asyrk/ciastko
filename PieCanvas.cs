@@ -47,11 +47,11 @@ namespace WpfApplication1
             p.Add(new PiePice("C:/", 16));
             p.Add(new PiePice("C:/", 17));
             p.Add(new PiePice("C:/", 18));
-            /*p.Add(new PiePice("C:/", 19));
+            p.Add(new PiePice("C:/", 19));
             p.Add(new PiePice("C:/", 20));
             p.Add(new PiePice("C:/", 21));
             p.Add(new PiePice("C:/", 22));
-            p.Add(new PiePice("C:/", 30));*/
+            p.Add(new PiePice("C:/", 30));
             Pieces = p;
         }
 
@@ -83,7 +83,9 @@ namespace WpfApplication1
         {
             base.OnRender(dc);
             double rad = 0;
-            Rect r = new Rect(Width / 10, Height /10, Width * 4 / 5, Height * 4 / 5);
+            System.Console.WriteLine("onRender");
+            double size = Width > Height ? Height : Width;
+            Rect r = new Rect(size / 10, size / 10, size * 4 / 5, size * 4 / 5);
             foreach (var p in pcs)
             {
                 p.BeginArc = rad;
@@ -92,7 +94,7 @@ namespace WpfApplication1
                 Pen pen = new Pen(b, 1);
                 //Todo: można użyć do obracania i 'wysuwania' kawałka ciastka.
                 Transform t = new TranslateTransform(10, 10);
-                piece.Transform = t;
+                //piece.Transform = t;
                 dc.DrawGeometry(b, pen, piece);
                 rad += p.SizeArc;
             }
@@ -103,6 +105,8 @@ namespace WpfApplication1
             base.OnRenderSizeChanged(sizeInfo);
             Width = sizeInfo.NewSize.Width;
             Height = sizeInfo.NewSize.Height;
+            System.Console.WriteLine("sizeChanged");
+            InvalidateVisual();
         }
 
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
@@ -112,17 +116,19 @@ namespace WpfApplication1
 
         protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
         {
+            System.Console.WriteLine("resize");
             base.MeasureOverride(constraint);
             FrameworkElement parent = this.Parent as FrameworkElement;
             double width, height;
-            if(parent != null){
-                width = parent.ActualWidth;
-                height = parent.ActualHeight;
-            }else{
-                width = Width;
-                height = Height;
-            }
-            return new Size(width, height);
+            System.Console.WriteLine("parent: " + parent.ActualWidth + ":" + parent.ActualHeight);
+            width = parent.ActualWidth;
+            height = parent.ActualHeight;
+
+            Size newSize = new Size(width, height);
+            Width = width;
+            Height = height; 
+            InvalidateVisual();
+            return newSize;
         }
         
     }
