@@ -24,16 +24,17 @@ namespace WpfApplication1
             _Root.Items.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
             _Root.Header = disk;
             threads = new List<Thread>();
-            ReadDirectories(new DirectoryInfo(disk), _Root);
-            _Root.Files = new DirectoryInfo(disk).GetFiles("*", SearchOption.TopDirectoryOnly);
+            DirectoryInfo diskDir = new DirectoryInfo(disk);
+            ReadDirectories(diskDir.GetDirectories(), _Root);
+            _Root.Files = diskDir.GetFiles("*", SearchOption.TopDirectoryOnly);
             foreach (FileInfo file in _Root.Files)
             {
-                _Root.size += file.Length;
+                _Root.Size += file.Length;
                 TotalSize += file.Length;
             }
             foreach (DirectoryTreeViewItem tmpD in _Root.Items)
             {
-                _Root.size += tmpD.size;
+                _Root.Size += tmpD.Size;
             }
             //foreach (DirectoryInfo d in new DirectoryInfo(disk).GetDirectories("*", SearchOption.TopDirectoryOnly))
             //{
@@ -48,26 +49,33 @@ namespace WpfApplication1
             //Thread pool = new Thread(PoolThreads);
         }
 
-        private void ReadDirectories(DirectoryInfo d, DirectoryTreeViewItem parent)
+        private void ReadDirectories(DirectoryInfo[] d, DirectoryTreeViewItem parent)
         {
             depth++;
+            DirectoryInfo dir;
+            int i =0;
             try
             {
-                foreach (DirectoryInfo dir in d.GetDirectories("*", SearchOption.TopDirectoryOnly))
+                for (i = 0; i < d.Length; ++i)
                 {
+                    dir = d[i];
+                    //System.Console.WriteLine(d[i].ToString());
                     DirectoryTreeViewItem tmpNode = new DirectoryTreeViewItem();
-                    tmpNode.Header = dir.Name;
-                    parent.Items.Add(tmpNode);
-                    ReadDirectories(dir, tmpNode);
-                    tmpNode.Files = dir.GetFiles("*", SearchOption.TopDirectoryOnly);
-                    foreach (FileInfo file in tmpNode.Files)
+                    if (dir != null)
                     {
-                        tmpNode.size += file.Length;
-                        TotalSize += file.Length;
-                    }
-                    foreach (DirectoryTreeViewItem tmpD in tmpNode.Items)
-                    {
-                        tmpNode.size += tmpD.size;
+                        tmpNode.Header = dir.Name;
+                        parent.Items.Add(tmpNode);
+                        ReadDirectories(dir.GetDirectories("*", SearchOption.TopDirectoryOnly), tmpNode);
+                        tmpNode.Files = dir.GetFiles("*", SearchOption.TopDirectoryOnly);
+                        foreach (FileInfo file in tmpNode.Files)
+                        {
+                            tmpNode.Size += file.Length;
+                            TotalSize += file.Length;
+                        }
+                        foreach (DirectoryTreeViewItem tmpD in tmpNode.Items)
+                        {
+                            tmpNode.Size += tmpD.Size;
+                        }
                     }
                     //tmpNode.Header += tmpNode.size.ToString();
                     //parent.Dispatcher.BeginInvoke(new AddNodeDelegate(AddNode), new object[] { parent, tmpNode });
@@ -75,8 +83,19 @@ namespace WpfApplication1
             }
             catch (System.UnauthorizedAccessException ex)
             {
-                System.Console.WriteLine("Skipped directory \"" + d.Name + "\", reason: " + ex.Message);
+                if (d[i] != null)
+                    System.Console.WriteLine("Skipped directory \"" + d[i].Name + "\", reason: " + ex.Message);
+                if (d.Length - 1 > i)
+                {
+                    DirectoryInfo[] tmpDir = new DirectoryInfo[d.Length - i];
+                    Array.Copy(d, i + 1, tmpDir, 0, d.Length - i - 1);
+                    ReadDirectories(tmpDir, parent);
+                }
             }
+            catch (System.NullReferenceException ex)
+            {
+            }
+            //System.Console.WriteLine(depth);
             depth--;
         }
 

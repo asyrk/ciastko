@@ -9,7 +9,7 @@ namespace WpfApplication1
 {
     public class DirectoryTreeViewItem : TreeViewItem
     {
-        public long size = 0;
-        public FileInfo[] Files;
+        public long Size = 0;
+        public FileInfo[] Files {get ; set;}
     }
 }
