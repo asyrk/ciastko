@@ -29,6 +29,14 @@ namespace WpfApplication1
             actualNode = analizer.Root;
             chart.Nodes = actualNode.Items;
             mainWindow.Chart = chart;
+            expandTreeNode((analizer.Root.Items[2] as DirectoryTreeViewItem).Items[1] as DirectoryTreeViewItem);
+        }
+
+
+        public void expandTreeNode(DirectoryTreeViewItem item)
+        {
+            item.IsExpanded = true;
+            item.BringIntoView();
         }
     }
 }
