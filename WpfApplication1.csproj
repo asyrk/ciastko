@@ -69,9 +69,6 @@
     <Compile Include="PartitionListData.cs" />
     <Compile Include="PieChart.cs" />
     <Compile Include="PiePice.cs" />
-    <Compile Include="PonckiTesting.xaml.cs">
-      <DependentUpon>PonckiTesting.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ResultChart.cs" />
     <Compile Include="Syr_Testing.xaml.cs">
       <DependentUpon>Syr_Testing.xaml</DependentUpon>
@@ -103,10 +100,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PonckiTesting.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Syr_Testing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

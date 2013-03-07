@@ -18,7 +18,7 @@ namespace WpfApplication1
             mainWindow = new MainWindow();
             diskSelectDialog = new DiskSelectDialog();
             analizer = new Analizer();
-            chart = new PieChart();
+            chart = new PieChart(this);
         }
         public void startApp()
         {

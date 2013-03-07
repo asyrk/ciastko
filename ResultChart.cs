@@ -9,6 +9,7 @@ namespace WpfApplication1
     public abstract class ResultChart : Panel
     {
         protected ItemCollection nodes;
+        protected Controller ctrl;
 
         public abstract ItemCollection Nodes
         {

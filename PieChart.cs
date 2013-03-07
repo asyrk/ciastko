@@ -11,6 +11,8 @@ namespace WpfApplication1
 {
     class PieChart : ResultChart
     {
+        public PieChart(Controller c) { ctrl = c; }
+
         private List<PiePice> pcs = new List<PiePice>();
 
         private List<PiePice> Pieces
@@ -181,8 +183,8 @@ namespace WpfApplication1
                     }
                     ++id;
                 }
-                if (newRoot != null)
-                    Nodes = newRoot.Items;
+                Nodes = newRoot.Items;
+                ctrl.expandTreeNode(newRoot);
             }
         }
 
