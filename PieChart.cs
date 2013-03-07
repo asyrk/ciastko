@@ -69,7 +69,7 @@ namespace WpfApplication1
             StreamGeometry sG = new StreamGeometry();
             using (StreamGeometryContext ctx = sG.Open())
             {
-                bool big = Math.Abs(pp.SweepArc) > Math.PI/2;
+                bool big = Math.Abs(pp.SweepArc) > Math.PI;
 
                 ctx.BeginFigure(new Point(r.X + centerx, r.Y + centery), true, true);
                 ctx.LineTo(new Point(endx, endy), true, true);
