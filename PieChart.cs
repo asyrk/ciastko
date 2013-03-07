@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace WpfApplication1
 {
-    class PieChart : Canvas
+    class PieChart : Panel
     {
         private List<PiePice> pcs = new List<PiePice>();
 
