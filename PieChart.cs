@@ -155,6 +155,37 @@ namespace WpfApplication1
             }
         }
 
+        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            Point pt = e.GetPosition(this);
+            double Size = Width > Height ? Height : Width;
+            pt.X -= Size / 2;
+            pt.Y -= Size / 2;
+            double r = Size * 2 / 5;
+            double mr = Math.Sqrt(Math.Pow(pt.X, 2) + Math.Pow(pt.Y, 2));
+            if (mr < r)
+            {
+                DirectoryTreeViewItem newRoot = null;
+                double arcRad = Math.Asin(pt.Y / mr);
+                if (pt.X < 0)
+                    arcRad = Math.PI - arcRad;
+                if (arcRad < 0)
+                    arcRad = Math.PI * 2 + arcRad;
+                int id = 0;
+                foreach (var p in pcs)
+                {
+                    if (arcRad > p.BeginArc && arcRad < (p.BeginArc + p.SweepArc))
+                    {
+                        newRoot = (DirectoryTreeViewItem) nodes.GetItemAt(id);
+                    }
+                    ++id;
+                }
+                if (newRoot != null)
+                    Nodes = newRoot.Items;
+            }
+        }
+
         protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
         {
             System.Console.WriteLine("reSize");
