@@ -53,7 +53,7 @@ namespace WpfApplication1
             List<PiePice> p = new List<PiePice>();
             foreach (var ti in tab)
             {
-                p.Add(new PiePice(ti.Name,ti.size));
+                p.Add(new PiePice(ti.Name,ti.Size));
             }
             Pieces = p;
         }
