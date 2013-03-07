@@ -72,6 +72,7 @@
     <Compile Include="PonckiTesting.xaml.cs">
       <DependentUpon>PonckiTesting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ResultChart.cs" />
     <Compile Include="Syr_Testing.xaml.cs">
       <DependentUpon>Syr_Testing.xaml</DependentUpon>
     </Compile>

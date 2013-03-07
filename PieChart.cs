@@ -9,11 +9,11 @@ using System.Globalization;
 
 namespace WpfApplication1
 {
-    class PieChart : Panel
+    class PieChart : ResultChart
     {
         private List<PiePice> pcs = new List<PiePice>();
 
-        public List<PiePice> Pieces
+        private List<PiePice> Pieces
         {
             set
             {
@@ -31,31 +31,26 @@ namespace WpfApplication1
                     p.SweepArc = proc * System.Math.PI * 2;
                 }
             }
-            private get{
+            get{
                 System.Console.WriteLine("get1");
                 return pcs;
             }
         }
 
-        public PieChart()
+        public override ItemCollection Nodes
         {
-            List<PiePice> p = new List<PiePice>();
-            p.Add(new PiePice("c:/", 14));
-            p.Add(new PiePice("d:/", 24));
-            p.Add(new PiePice("e:/", 34));
-            p.Add(new PiePice("f:/", 44));
-            p.Add(new PiePice("g:/", 54));
-            Pieces = p;
-        }
-
-        public void SetDirectory(DirectoryTreeViewItem[] tab)
-        {
-            List<PiePice> p = new List<PiePice>();
-            foreach (var ti in tab)
+            get { return nodes; }
+            set 
             {
-                p.Add(new PiePice(ti.Name,ti.Size));
+                nodes = value;
+                List<PiePice> p = new List<PiePice>();
+                foreach (DirectoryTreeViewItem n in nodes)
+                {
+                    p.Add(new PiePice((string)n.Header, n.Size));
+                }
+                Pieces = p;
+                InvalidateVisual();
             }
-            Pieces = p;
         }
 
         private StreamGeometry CreatePiePiece(PiePice pp, double startRad, Rect r)
@@ -72,7 +67,7 @@ namespace WpfApplication1
             StreamGeometry sG = new StreamGeometry();
             using (StreamGeometryContext ctx = sG.Open())
             {
-                bool big = Math.Abs(pp.SweepArc) > 180;
+                bool big = Math.Abs(pp.SweepArc) > Math.PI/2;
 
                 ctx.BeginFigure(new Point(r.X + centerx, r.Y + centery), true, true);
                 ctx.LineTo(new Point(endx, endy), true, true);
@@ -88,6 +83,7 @@ namespace WpfApplication1
             double rad = 0;
             double Size = Width > Height ? Height : Width;
             Rect r = new Rect(Size / 10, Size / 10, Size * 4 / 5, Size * 4 / 5);
+            System.Console.WriteLine("Pieces no: {0}", pcs.Count);
             foreach (var p in pcs)
             {
                 p.BeginArc = rad;
@@ -96,18 +92,17 @@ namespace WpfApplication1
                 Pen pen = new Pen(b, 1);
                 if (p.Selected)
                 {
-                    //Todo: można użyć do obracania i 'wysuwania' kawałka ciastka.
                     Point pt = new Point();
                     double arc = p.BeginArc + p.SweepArc / 2;
                     pt.X = Size / 20 * Math.Cos(arc);
                     pt.Y = Size / 20 * Math.Sin(arc);
                     Transform t = new TranslateTransform(pt.X, pt.Y);
                     piece.Transform = t;
-                    FormattedText txt = new FormattedText(p.Name + " Size: " + p.SizeRel,
+                    FormattedText txt = new FormattedText(p.Name + "\nSize: " + p.SizeRel,
                       CultureInfo.GetCultureInfo("pl"),
                       FlowDirection.RightToLeft,
                       new Typeface("Verdana"),
-                      Size/18, System.Windows.Media.Brushes.Black);
+                      Size/35, System.Windows.Media.Brushes.Black);
                     dc.DrawText(txt,new Point(Size,0));
                 }
                 dc.DrawGeometry(b, pen, piece);
@@ -169,10 +164,11 @@ namespace WpfApplication1
             System.Console.WriteLine("parent: " + parent.ActualWidth + ":" + parent.ActualHeight);
             width = parent.ActualWidth;
             height = parent.ActualHeight;
-
+            double size = width > height ? height : width;
+            width = height = size;
             Size newSize = new Size(width, height);
             Width = width;
-            Height = height; 
+            Height = height;
             return newSize;
         }
         

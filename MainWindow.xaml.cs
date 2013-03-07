@@ -24,6 +24,14 @@ namespace WpfApplication1
             InitializeComponent();
         }
 
+        public ResultChart Chart
+        {
+            set
+            {
+                chartGrid.Children.Add(value);
+            }
+        }
+
         public void addTreeViewRoot(DirectoryTreeViewItem root)
         {
             directoryTree.Items.Add(root);

@@ -15,7 +15,7 @@ namespace WpfApplication1
             set 
             {
                 id = value;
-                col = COLOR_TAB[id];
+                col = COLOR_TAB[id % COLOR_TAB.Count()];
             }
         }
 
