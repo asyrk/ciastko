@@ -27,6 +27,7 @@ namespace WpfApplication1
         public void addTreeViewRoot(DirectoryTreeViewItem root)
         {
             directoryTree.Items.Add(root);
+            root.IsExpanded = true;
         }   
     }
 }

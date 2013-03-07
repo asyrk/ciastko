@@ -86,8 +86,8 @@ namespace WpfApplication1
         {
             base.OnRender(dc);
             double rad = 0;
-            double size = Width > Height ? Height : Width;
-            Rect r = new Rect(size / 10, size / 10, size * 4 / 5, size * 4 / 5);
+            double Size = Width > Height ? Height : Width;
+            Rect r = new Rect(Size / 10, Size / 10, Size * 4 / 5, Size * 4 / 5);
             foreach (var p in pcs)
             {
                 p.BeginArc = rad;
@@ -99,27 +99,27 @@ namespace WpfApplication1
                     //Todo: można użyć do obracania i 'wysuwania' kawałka ciastka.
                     Point pt = new Point();
                     double arc = p.BeginArc + p.SweepArc / 2;
-                    pt.X = size / 20 * Math.Cos(arc);
-                    pt.Y = size / 20 * Math.Sin(arc);
+                    pt.X = Size / 20 * Math.Cos(arc);
+                    pt.Y = Size / 20 * Math.Sin(arc);
                     Transform t = new TranslateTransform(pt.X, pt.Y);
                     piece.Transform = t;
-                    FormattedText txt = new FormattedText(p.Name + " size: " + p.SizeRel,
+                    FormattedText txt = new FormattedText(p.Name + " Size: " + p.SizeRel,
                       CultureInfo.GetCultureInfo("pl"),
                       FlowDirection.RightToLeft,
                       new Typeface("Verdana"),
-                      size/18, System.Windows.Media.Brushes.Black);
-                    dc.DrawText(txt,new Point(size,0));
+                      Size/18, System.Windows.Media.Brushes.Black);
+                    dc.DrawText(txt,new Point(Size,0));
                 }
                 dc.DrawGeometry(b, pen, piece);
                 rad += p.SweepArc;
             }
         }
 
-        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        protected override void OnRenderSizeChanged(SizeChangedInfo SizeInfo)
         {
-            base.OnRenderSizeChanged(sizeInfo);
-            Width = sizeInfo.NewSize.Width;
-            Height = sizeInfo.NewSize.Height;
+            base.OnRenderSizeChanged(SizeInfo);
+            Width = SizeInfo.NewSize.Width;
+            Height = SizeInfo.NewSize.Height;
             InvalidateVisual();
         }
 
@@ -127,10 +127,10 @@ namespace WpfApplication1
         {
             base.OnMouseMove(e);
             Point pt = e.GetPosition(this);
-            double size = Width > Height ? Height : Width;
-            pt.X -= size / 2;
-            pt.Y -= size / 2;
-            double r = size * 2 / 5;
+            double Size = Width > Height ? Height : Width;
+            pt.X -= Size / 2;
+            pt.Y -= Size / 2;
+            double r = Size * 2 / 5;
             double mr = Math.Sqrt(Math.Pow(pt.X,2) + Math.Pow(pt.Y,2));
             if (mr < r)
             {
@@ -162,7 +162,7 @@ namespace WpfApplication1
 
         protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
         {
-            System.Console.WriteLine("resize");
+            System.Console.WriteLine("reSize");
             base.MeasureOverride(constraint);
             FrameworkElement parent = this.Parent as FrameworkElement;
             double width, height;
