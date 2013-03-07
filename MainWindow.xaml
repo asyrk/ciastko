@@ -3,6 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <TreeView HorizontalAlignment="Left" Margin="5,7,0,12" Name="directoryTree" Width="228" VerticalAlignment="Stretch"/>
     </Grid>
 </Window>

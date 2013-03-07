@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.IO;
 using System.Threading;
 using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace WpfApplication1
 {
@@ -36,15 +37,22 @@ namespace WpfApplication1
             {
                 _Root.Size += tmpD.Size;
             }
-            //foreach (DirectoryInfo d in new DirectoryInfo(disk).GetDirectories("*", SearchOption.TopDirectoryOnly))
+            //foreach (DirectoryInfo d in diskDir.GetDirectories())
             //{
-                //DirectoryTreeViewItem tmpNode = new DirectoryTreeViewItem();
-                //tmpNode.Header = d.Name;
-                //_Root.Items.Add(tmpNode);
-                //ReadDirectories(d, tmpNode);
-                //Thread th = new Thread(() => ReadDirectories(d, _Root));
-                //th.Start();
-                //threads.Add(th);
+            //   DirectoryTreeViewItem tmpNode = new DirectoryTreeViewItem();
+            //    tmpNode.Header = d.Name;
+            //    _Root.Items.Add(tmpNode);
+            //    DirectoryInfo[] directories;
+            //    try
+            //   {
+            //        directories = d.GetDirectories();
+            //        Thread th = new Thread(() => ReadDirectories(directories, _Root));
+            //        th.SetApartmentState(ApartmentState.STA);
+            //        th.Start();
+            //        threads.Add(th);
+            //    }
+            //    catch (System.UnauthorizedAccessException ex) { }
+            //
             //}
             //Thread pool = new Thread(PoolThreads);
         }
@@ -76,6 +84,14 @@ namespace WpfApplication1
                         {
                             tmpNode.Size += tmpD.Size;
                         }
+                        //try
+                        //{
+                        //    _Root.Dispatcher.BeginInvoke(new AddNodeDelegate(AddNode), new object[] { parent, tmpNode });
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //    System.Console.WriteLine(e.Message);
+                        //}
                     }
                     //tmpNode.Header += tmpNode.size.ToString();
                     //parent.Dispatcher.BeginInvoke(new AddNodeDelegate(AddNode), new object[] { parent, tmpNode });
@@ -85,15 +101,18 @@ namespace WpfApplication1
             {
                 if (d[i] != null)
                     System.Console.WriteLine("Skipped directory \"" + d[i].Name + "\", reason: " + ex.Message);
+            }
+            catch (System.NullReferenceException ex)
+            {
+            }
+            finally
+            {
                 if (d.Length - 1 > i)
                 {
                     DirectoryInfo[] tmpDir = new DirectoryInfo[d.Length - i];
                     Array.Copy(d, i + 1, tmpDir, 0, d.Length - i - 1);
                     ReadDirectories(tmpDir, parent);
                 }
-            }
-            catch (System.NullReferenceException ex)
-            {
             }
             //System.Console.WriteLine(depth);
             depth--;

@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AbstractChart.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="DirectoryTreeViewItem.cs" />
     <Compile Include="DiskSelectControl.xaml.cs">
       <DependentUpon>DiskSelectControl.xaml</DependentUpon>

@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="201" d:DesignWidth="654">
-    <Grid>
+             d:DesignHeight="201" d:DesignWidth="654" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="21*" />
             <RowDefinition Height="201*" />
         </Grid.RowDefinitions>
-        <ListView Margin="12" Name="listView1" SelectionMode="Single" Grid.RowSpan="2" ItemsSource="{Binding Partitions}" SelectionChanged="listView1_SelectionChanged">
+        <ListView Margin="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="listView1" SelectionMode="Single" Grid.RowSpan="2" ItemsSource="{Binding Partitions}" SelectionChanged="listView1_SelectionChanged">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn Header="Disk" DisplayMemberBinding="{Binding Path=Name}"/>

@@ -41,7 +41,8 @@ namespace WpfApplication1
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            a.Analize(SelectedDrive);
+            treeView1.Dispatcher.BeginInvoke((Action)(() => { a.Analize(SelectedDrive); }), System.Windows.Threading.DispatcherPriority.Normal, null);
+            //a.Analize(SelectedDrive);
             this.treeView1.Items.Add(a.Root);
             this.label1.Content = @"Total size: " + a.TotalSize + " bytes.";
         }

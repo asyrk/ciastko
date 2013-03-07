@@ -4,6 +4,6 @@
         Title="DiskSelectDialog" Height="251" Width="412" xmlns:my="clr-namespace:WpfApplication1">
     <Grid Height="206" Width="388" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Button Content="Select" HorizontalAlignment="Left" Margin="301,171,0,12" Name="button1" Width="75" Click="button1_Click" />
-        <my:DiskSelectControl HorizontalAlignment="Left" Margin="12,12,0,41" x:Name="diskSelectControl1" Width="364" />
+        <my:DiskSelectControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12,12,0,41" x:Name="diskSelectControl1" Width="364" />
     </Grid>
 </Window>

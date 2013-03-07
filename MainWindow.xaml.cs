@@ -23,5 +23,10 @@ namespace WpfApplication1
         {
             InitializeComponent();
         }
+
+        public void addTreeViewRoot(DirectoryTreeViewItem root)
+        {
+            directoryTree.Items.Add(root);
+        }   
     }
 }
