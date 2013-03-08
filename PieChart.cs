@@ -11,7 +11,18 @@ namespace WpfApplication1
 {
     class PieChart : ResultChart
     {
-        public PieChart(Controller c) { ctrl = c; }
+
+        public PieChart(Controller c) {
+            ctrl = c;
+            Button btn = new Button();
+            btn.Content = "Back";
+            btn.BorderBrush = btn.Background = Brushes.AliceBlue;
+            btn.FontSize = 20;
+            btn.Click +=new RoutedEventHandler(backClick);
+            Canvas.SetLeft(btn, 5);
+            Canvas.SetTop(btn, 5);
+            this.Children.Add(btn);
+        }
 
         private List<PiePice> pcs = new List<PiePice>();
 
@@ -34,22 +45,27 @@ namespace WpfApplication1
                 }
             }
             get{
-                System.Console.WriteLine("get1");
                 return pcs;
             }
         }
 
         public override ItemCollection Nodes
         {
-            get { return nodes; }
+            get { return root.Items; }
+        }
+
+         public override DirectoryTreeViewItem Root
+        {
+            get { return root; }
             set 
             {
-                nodes = value;
+                root = value;
+                ItemCollection nodes = root.Items;
                 List<PiePice> p = new List<PiePice>();
                 foreach (DirectoryTreeViewItem n in nodes)
-                {
-                    p.Add(new PiePice((string)n.Header, n.Size));
-                }
+                    p.Add(new PiePice((string)n.Header, n.Size, false));
+                foreach(var fI in root.Files)
+                    p.Add(new PiePice(fI.Name, fI.Length, true));
                 Pieces = p;
                 InvalidateVisual();
             }
@@ -85,7 +101,6 @@ namespace WpfApplication1
             double rad = 0;
             double Size = Width > Height ? Height : Width;
             Rect r = new Rect(Size / 10, Size / 10, Size * 4 / 5, Size * 4 / 5);
-            System.Console.WriteLine("Pieces no: {0}", pcs.Count);
             foreach (var p in pcs)
             {
                 p.BeginArc = rad;
@@ -100,7 +115,7 @@ namespace WpfApplication1
                     pt.Y = Size / 20 * Math.Sin(arc);
                     Transform t = new TranslateTransform(pt.X, pt.Y);
                     piece.Transform = t;
-                    FormattedText txt = new FormattedText(p.Name + "\nSize: " + p.SizeRel,
+                    FormattedText txt = new FormattedText(p.Name + "\nSize: " + p.SizeForm,
                       CultureInfo.GetCultureInfo("pl"),
                       FlowDirection.RightToLeft,
                       new Typeface("Verdana"),
@@ -124,68 +139,35 @@ namespace WpfApplication1
         {
             base.OnMouseMove(e);
             Point pt = e.GetPosition(this);
-            double Size = Width > Height ? Height : Width;
-            pt.X -= Size / 2;
-            pt.Y -= Size / 2;
-            double r = Size * 2 / 5;
-            double mr = Math.Sqrt(Math.Pow(pt.X,2) + Math.Pow(pt.Y,2));
-            if (mr < r)
+            PiePice p = GetPieceAt(pt);
+            foreach (var pc in pcs)
+                pc.Selected = false;
+            if (p != null)
             {
-                double arcRad = Math.Asin(pt.Y / mr);
-                if (pt.X < 0)
-                    arcRad = Math.PI - arcRad;
-                if (arcRad < 0)
-                    arcRad = Math.PI * 2 + arcRad;
-                foreach (var p in pcs)
-                {
-                    if (arcRad > p.BeginArc && arcRad < (p.BeginArc + p.SweepArc))
-                    {
-                        p.Selected = true;
-                        InvalidateVisual();
-                    }
-                    else
-                    {
-                        p.Selected = false;
-                    }
-                }
+                p.Selected = true;
             }
-            else
-            {
-                foreach (var p in pcs)
-                    p.Selected = false;
-                InvalidateVisual();
-            }
+            InvalidateVisual();
         }
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             Point pt = e.GetPosition(this);
-            double Size = Width > Height ? Height : Width;
-            pt.X -= Size / 2;
-            pt.Y -= Size / 2;
-            double r = Size * 2 / 5;
-            double mr = Math.Sqrt(Math.Pow(pt.X, 2) + Math.Pow(pt.Y, 2));
-            if (mr < r)
+            PiePice p = GetPieceAt(pt);
+            if (!p.IsFile && p!= null)
             {
-                DirectoryTreeViewItem newRoot = null;
-                double arcRad = Math.Asin(pt.Y / mr);
-                if (pt.X < 0)
-                    arcRad = Math.PI - arcRad;
-                if (arcRad < 0)
-                    arcRad = Math.PI * 2 + arcRad;
-                int id = 0;
-                foreach (var p in pcs)
-                {
-                    if (arcRad > p.BeginArc && arcRad < (p.BeginArc + p.SweepArc))
-                    {
-                        newRoot = (DirectoryTreeViewItem) nodes.GetItemAt(id);
-                    }
-                    ++id;
-                }
-                Nodes = newRoot.Items;
-                ctrl.expandTreeNode(newRoot);
+                int id = pcs.IndexOf(p);
+                DirectoryTreeViewItem newN = (DirectoryTreeViewItem) Nodes.GetItemAt(id);
+                Root = newN;
+                ctrl.expandTreeNode(newN);
             }
+        }
+
+        protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
+            ContextMenu cm = createContextMenu();
+            cm.IsOpen = true;
         }
 
         protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
@@ -194,7 +176,6 @@ namespace WpfApplication1
             base.MeasureOverride(constraint);
             FrameworkElement parent = this.Parent as FrameworkElement;
             double width, height;
-            System.Console.WriteLine("parent: " + parent.ActualWidth + ":" + parent.ActualHeight);
             width = parent.ActualWidth;
             height = parent.ActualHeight;
             double size = width > height ? height : width;
@@ -204,6 +185,64 @@ namespace WpfApplication1
             Height = height;
             return newSize;
         }
-        
+
+        private void backClick(object sender, RoutedEventArgs e)
+        {
+            if (Nodes.Count != 0)
+            {
+                TreeViewItem root = (TreeViewItem)Nodes.GetItemAt(0);
+                DependencyObject parent = root.Parent;
+                if (parent is DirectoryTreeViewItem)
+                {
+                    var grandparent = ((TreeViewItem)parent).Parent;
+                    if (grandparent is DirectoryTreeViewItem )
+                    {
+                        Root = (DirectoryTreeViewItem)grandparent;
+                    }
+                }
+            }
+        }
+
+        private ContextMenu createContextMenu(){
+            ContextMenu menu = new ContextMenu();
+            MenuItem open = new MenuItem();
+            open.Header = "Open";
+            menu.Items.Add(open);
+            MenuItem del = new MenuItem();
+            del.Header = "Delete";
+            menu.Items.Add(del);
+            open.MouseDown += new System.Windows.Input.MouseButtonEventHandler(open_MouseDown);
+            return menu;
+        }
+
+        void open_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private PiePice GetPieceAt(Point pt)
+        {
+            PiePice piece = null;
+            double Size = Width > Height ? Height : Width;
+            pt.X -= Size / 2;
+            pt.Y -= Size / 2;
+            double r = Size * 2 / 5;
+            double mr = Math.Sqrt(Math.Pow(pt.X, 2) + Math.Pow(pt.Y, 2));
+            if (mr < r)
+            {
+                double arcRad = Math.Asin(pt.Y / mr);
+                if (pt.X < 0)
+                    arcRad = Math.PI - arcRad;
+                if (arcRad < 0)
+                    arcRad = Math.PI * 2 + arcRad;
+                foreach (var p in pcs)
+                    if (arcRad > p.BeginArc && arcRad < (p.BeginArc + p.SweepArc))
+                    {
+                        piece = p;
+                        break;
+                    }
+            }
+            return piece;
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace WpfApplication1
             mainWindow.addTreeViewRoot(analizer.Root);
             mainWindow.Show();
             actualNode = analizer.Root;
-            chart.Nodes = actualNode.Items;
+            chart.Root = actualNode;
             mainWindow.Chart = chart;
         }
 

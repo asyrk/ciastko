@@ -6,12 +6,16 @@ using System.Windows.Controls;
 
 namespace WpfApplication1
 {
-    public abstract class ResultChart : Panel
+    public abstract class ResultChart : Canvas
     {
-        protected ItemCollection nodes;
+        protected DirectoryTreeViewItem root;
         protected Controller ctrl;
 
         public abstract ItemCollection Nodes
+        {
+            get;
+        }
+        public abstract DirectoryTreeViewItem Root
         {
             get;
             set;

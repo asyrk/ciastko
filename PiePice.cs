@@ -29,8 +29,43 @@ namespace WpfApplication1
         private long sizeRel;
         public long SizeRel
         {
-            get { return sizeRel; }
+            get {return sizeRel; }
             set { sizeRel = value; }
+        }
+
+        public string SizeForm
+        {
+            get
+            {
+                string suf = "";
+                double size = sizeRel;
+                int i = 0;
+                while (size > 1)
+                {
+                    i++;
+                    size /= 1024;
+                }
+                switch (i)
+                {
+                    case 1:
+                        suf = " B";
+                        break;
+                    case 2:
+                        suf = " KB";
+                        break;
+                    case 3:
+                        suf = " MB";
+                        break;
+                    case 4:
+                        suf = " GB";
+                        break;
+                   default:
+                        suf = " ?";
+                        break;
+                }
+                size *= 1024;
+                return String.Format("{0:F3}", size) + suf;
+            }
         }
 
         private double beginArc;
@@ -60,10 +95,17 @@ namespace WpfApplication1
             set { selected = value; }
         }
 
-        public PiePice(string n, long s)
+        private bool isFile;
+        public bool IsFile
+        {
+            get { return isFile; }
+        }
+
+        public PiePice(string n, long s, bool file)
         {
             name = n;
             sizeRel = s;
+            isFile = file;
         }
 
         public override string ToString()
