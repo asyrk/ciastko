@@ -77,8 +77,9 @@
     <Compile Include="Syr_Testing.xaml.cs">
       <DependentUpon>Syr_Testing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TreeBranch.cs" />
     <Compile Include="TreeChart.cs" />
-    <Compile Include="TreeElement.cs" />
+    <Compile Include="TreeLeaf.cs" />
     <Page Include="DeleteConfirmationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

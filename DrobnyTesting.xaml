@@ -4,9 +4,6 @@
         xmlns:local="clr-namespace:WpfApplication1" x:Class="WpfApplication1.DrobnyTesting"
         Title="DrobnyTesting" Height="236" Width="717">
     <Grid>
-        <local:TreeChart x:Name="mainBranch" HorizontalAlignment="Left" Height="124" Margin="10,10,0,0" VerticalAlignment="Top" Width="689" Background="#FFF1F1F1">
-            <Rectangle Fill="#FFC7C7FB" HorizontalAlignment="Left" Height="74" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="184"/>
-            <Rectangle Fill="#FFF97E6A" HorizontalAlignment="Left" Height="74" Margin="210,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="172"/>
-        </local:TreeChart>
+       
     </Grid>
 </Window>

@@ -21,6 +21,7 @@ namespace WpfApplication1
             diskSelectDialog = new DiskSelectDialog();
             analizer = new Analizer();
             chart = new PieChart(this);
+			//chart = new TreeChart(this);
         }
         public void startApp()
         {
