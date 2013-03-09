@@ -3,7 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="494" Width="735" xmlns:my="clr-namespace:WpfApplication1">
     <Grid>
-        <TreeView HorizontalAlignment="Left" Margin="5,7,0,12" Name="directoryTree" Width="228" VerticalAlignment="Stretch"/>
+        <TreeView TreeViewItem.Expanded="directoryTree_Expanded" HorizontalAlignment="Left" Margin="5,7,0,12" Name="directoryTree" Width="228" VerticalAlignment="Stretch" SelectedItemChanged="directoryTree_SelectedItemChanged">
+            <TreeView.Resources>
+                <ContextMenu x:Key="TreeItemContext" StaysOpen="True">
+                    <MenuItem Header="Delete" Click="DeleteFile_Click">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource ResourceKey=RemoveIconSmall}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Open in Windows Explorer" Click="OpenInExplorer_Click">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource ResourceKey=ToExplorator}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </TreeView.Resources>
+        </TreeView>
         <Grid HorizontalAlignment="Stretch" Margin="244,7,0,0" Name="chartGrid" VerticalAlignment="Stretch"></Grid>
     </Grid>
 </Window>

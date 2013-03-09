@@ -72,6 +72,7 @@ namespace WpfApplication1
                     if (dir != null)
                     {
                         tmpNode.Header = dir.Name;
+                        tmpNode.FullPath = dir.FullName;
                         parent.Items.Add(tmpNode);
                         ReadDirectories(dir.GetDirectories("*", SearchOption.TopDirectoryOnly), tmpNode);
                         tmpNode.Files = dir.GetFiles("*", SearchOption.TopDirectoryOnly);

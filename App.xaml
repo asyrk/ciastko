@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Startup="Application_Startup">
     <Application.Resources>
-         
+        <BitmapImage x:Key="RemoveIconSmall" UriSource="Resources/delete_12x12.png"/>
+        <BitmapImage x:Key="ToExplorator" UriSource="Resources/075b_UpFolder_16x16_72.png"/>
     </Application.Resources>
 </Application>

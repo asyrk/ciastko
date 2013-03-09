@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,6 +58,9 @@
     </ApplicationDefinition>
     <Compile Include="AbstractChart.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="DeleteConfirmationDialog.xaml.cs">
+      <DependentUpon>DeleteConfirmationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DirectoryTreeViewItem.cs" />
     <Compile Include="DiskSelectControl.xaml.cs">
       <DependentUpon>DiskSelectControl.xaml</DependentUpon>
@@ -75,6 +79,10 @@
     </Compile>
     <Compile Include="TreeChart.cs" />
     <Compile Include="TreeElement.cs" />
+    <Page Include="DeleteConfirmationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DiskSelectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,6 +136,15 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\list.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\delete_12x12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\075b_UpFolder_16x16_72.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace WpfApplication1
 {
@@ -19,6 +20,8 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Controller ctl {get; set;}
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,6 +39,33 @@ namespace WpfApplication1
         {
             directoryTree.Items.Add(root);
             root.IsExpanded = true;
-        }   
+        }
+
+        private void directoryTree_Expanded(object sender, RoutedEventArgs e)
+        {
+            ctl.setChartRoot(e.OriginalSource as DirectoryTreeViewItem);
+        }
+
+        private void OpenInExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            DirectoryTreeViewItem selectedItem = directoryTree.SelectedItem as DirectoryTreeViewItem;
+            ctl.OpenExplorer(selectedItem.FullPath);
+        }
+
+        private void DeleteFile_Click(object sender, RoutedEventArgs e)
+        {
+            DirectoryTreeViewItem selectedItem = directoryTree.SelectedItem as DirectoryTreeViewItem;
+            if (ctl.DeleteItem(selectedItem.FullPath))
+            {
+                ctl.setChartRoot(selectedItem.Parent as DirectoryTreeViewItem);
+                ctl.RemoveItemFromTree(directoryTree.Items[0] as DirectoryTreeViewItem, selectedItem);
+            }
+        }
+
+        private void directoryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            DirectoryTreeViewItem selectedItem = directoryTree.SelectedItem as DirectoryTreeViewItem;
+            directoryTree.ContextMenu = directoryTree.Resources["TreeItemContext"] as ContextMenu;
+        }
     }
 }
