@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Controls;
 using System.IO;
 
 namespace WpfApplication1
 {
-    public class DirectoryTreeViewItem : TreeViewItem
+    class DirectoryElement
     {
         public String FullPath { get; set; }
         public long Size = 0;

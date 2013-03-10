@@ -61,6 +61,7 @@
     <Compile Include="DeleteConfirmationDialog.xaml.cs">
       <DependentUpon>DeleteConfirmationDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DirectoryTreeElement.cs" />
     <Compile Include="DirectoryTreeViewItem.cs" />
     <Compile Include="DiskSelectControl.xaml.cs">
       <DependentUpon>DiskSelectControl.xaml</DependentUpon>
@@ -76,6 +77,7 @@
     <Compile Include="Syr_Testing.xaml.cs">
       <DependentUpon>Syr_Testing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ThreadedAnalizer.cs" />
     <Compile Include="TreeBranch.cs" />
     <Compile Include="TreeChart.cs" />
     <Compile Include="TreeLeaf.cs" />

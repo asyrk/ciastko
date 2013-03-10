@@ -11,7 +11,7 @@ namespace WpfApplication1
     {
         private MainWindow mainWindow;
         private DiskSelectDialog diskSelectDialog;
-        private Analizer analizer;
+        private ThreadedAnalizer analizer;
         private ResultChart chart;
         private DirectoryTreeViewItem actualNode;
 
@@ -19,7 +19,7 @@ namespace WpfApplication1
         {
             mainWindow = new MainWindow();
             diskSelectDialog = new DiskSelectDialog();
-            analizer = new Analizer();
+            analizer = new ThreadedAnalizer();
             //chart = new PieChart(this);
 			chart = new TreeChart(this);
         }
@@ -28,9 +28,9 @@ namespace WpfApplication1
             mainWindow.ctl = this;
             diskSelectDialog.ShowDialog();
             analizer.Analize(diskSelectDialog.SelectedDrive);
-            mainWindow.addTreeViewRoot(analizer.Root);
+            mainWindow.addTreeViewRoot(analizer.TreeRoot);
             mainWindow.Show();
-            actualNode = analizer.Root;
+            actualNode = analizer.TreeRoot;
 				//System.Diagnostics.Debug.WriteLine("Root prop in Ctrl");  
 			chart.Root = actualNode; 
             mainWindow.Chart = chart;
