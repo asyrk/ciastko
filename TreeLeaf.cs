@@ -8,6 +8,8 @@ namespace WpfApplication1
 {
 	class TreeLeaf : Panel
 	{
+		string leafName;
+		long leafSize;
 		Label nameLabel=new Label();
 		bool isFile;
 
@@ -24,11 +26,16 @@ namespace WpfApplication1
 			this.MouseDown += new MouseButtonEventHandler(TreeElem_MouseDown);
 
 			this.parentBranch=parentTreeBranch;
-
 			this.isFile=isFile;
+			leafName=name;
+			leafSize=size;
 
 			/*size & color */
-			System.Diagnostics.Debug.WriteLine("dir size:"+ size+ ", total size: "+ TreeBranch.ParentTreeChart.Root.Size);
+			
+			double windowSize = (Width > Height) ? Height : Width;
+			double parentSize = TreeBranch.ParentTreeChart.Root.Size;
+			double ratio = size * 100.0 / parentSize;
+			System.Diagnostics.Debug.WriteLine("size:" + size + ", parent size: " + parentSize +", ratio: "+ ratio);
 
 			Width=100;
 			Height=50;
@@ -46,7 +53,10 @@ namespace WpfApplication1
 
 		public void TreeElem_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			if(isFile) return; //no action if leaf is a file
+			TreeLeaf leaf = (TreeLeaf) sender;
+			TreeChart.SelectedLeafInfo.Text = "Current: "+ leaf.leafName +", size: "+ leaf.leafSize;
+
+			if (isFile) return; //no action if leaf is a file
 
 			/*
 			 * IF higher leaf demanded - remove lower branches & add new branch from that leaf

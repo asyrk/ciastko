@@ -59,10 +59,10 @@ namespace WpfApplication1
 				leaves.Add(new TreeLeaf(this,(string)n.Header,n.Size,false));
 				branchLayout.Children.Add(leaves[leaves.Count-1]);
 			 }
-			 //foreach(var file in ParentTreeChart.Root.Files){
-			 //   leaves.Add(new TreeLeaf(this,file.Name,file.Length,true));
-			 //   branchLayout.Children.Add(leaves[leaves.Count-1]);
-			 //}
+			foreach (var file in ParentTreeChart.Root.Files) {
+				leaves.Add(new TreeLeaf(this, file.Name, file.Length, true));
+				branchLayout.Children.Add(leaves[leaves.Count - 1]);
+			}
 
 			Children.Add(branchLayout);
 		}
