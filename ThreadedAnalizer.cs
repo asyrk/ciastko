@@ -31,17 +31,20 @@ namespace WpfApplication1
             //ReadDirectories(diskDir.GetDirectories(), _Root);
             foreach (DirectoryInfo d in diskDir.GetDirectories())
             {
+                try
+                {
                 DirectoryTreeElement tmpNode = new DirectoryTreeElement()
                 {
                     Header = d.Name,
-                    FullPath = d.FullName
+                    FullPath = d.FullName,
+                    Files = d.GetFiles("*", SearchOption.TopDirectoryOnly)
                 };
+                Array.ForEach(tmpNode.Files, f => tmpNode.Size += f.Length);
                 Root.Children.Add(tmpNode);
                 DirectoryInfo[] directories;
-                try
-                {
+
                     directories = d.GetDirectories();
-                    Thread th = new Thread(() => ReadDirectories(directories, tmpNode));
+                    Thread th = new Thread(() => ReadDirectories(directories, tmpNode)); 
                     th.SetApartmentState(ApartmentState.STA);
                     th.Start();
                     threads.Add(th);
@@ -51,6 +54,7 @@ namespace WpfApplication1
             }
             PoolThreads();
             Root.Files = diskDir.GetFiles("*", SearchOption.TopDirectoryOnly);
+            Root.Children.ForEach(child => child.Children.ForEach(grandchild => child.Size += grandchild.Size)); // LAMBDA MAGIC!
             foreach (FileInfo file in Root.Files)
             {
                 Root.Size += file.Length;
