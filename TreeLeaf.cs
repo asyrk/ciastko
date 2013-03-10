@@ -19,13 +19,17 @@ namespace WpfApplication1
 			get { return parentBranch; }
 		}
 
-		public TreeLeaf(TreeBranch parentTreeBranch, String name, long size,bool isFile)
+		public TreeLeaf(TreeBranch parentTreeBranch, String name, long size, bool isFile)
 		{
 			this.MouseDown += new MouseButtonEventHandler(TreeElem_MouseDown);
 
 			this.parentBranch=parentTreeBranch;
 
 			this.isFile=isFile;
+
+			/*size & color */
+			System.Diagnostics.Debug.WriteLine("dir size:"+ size+ ", total size: "+ TreeBranch.ParentTreeChart.Root.Size);
+
 			Width=100;
 			Height=50;
 			//Name=name;
@@ -42,11 +46,8 @@ namespace WpfApplication1
 
 		public void TreeElem_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			String name="";
-			if(sender is TreeLeaf) {
-				TreeLeaf tmp=(TreeLeaf) sender;
-				name = tmp.Name;
-			}
+			if(isFile) return; //no action if leaf is a file
+
 			/*
 			 * IF higher leaf demanded - remove lower branches & add new branch from that leaf
 			 * else add new branch

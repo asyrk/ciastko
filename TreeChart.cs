@@ -31,9 +31,9 @@ namespace WpfApplication1
 				root = value;
 				ItemCollection nodes = Nodes;
 				TreeBranch tmp = new TreeBranch(nodes,currentOpenedBranchLevel, "branch");
+				
 				//System.Diagnostics.Debug.WriteLine("Add branch in TreeChart (Root) "+ this.GetType().ToString());
 				chartLayout.Children.Add(tmp);
-				//currentOpenedBranchLevel++;
 			}
 		}
 
