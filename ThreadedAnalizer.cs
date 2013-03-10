@@ -41,7 +41,7 @@ namespace WpfApplication1
                 try
                 {
                     directories = d.GetDirectories();
-                    Thread th = new Thread(() => ReadDirectories(directories, Root));
+                    Thread th = new Thread(() => ReadDirectories(directories, tmpNode));
                     th.SetApartmentState(ApartmentState.STA);
                     th.Start();
                     threads.Add(th);
@@ -78,19 +78,14 @@ namespace WpfApplication1
                         DirectoryTreeElement tmpNode = new DirectoryTreeElement()
                         {
                             Header = dir.Name,
-                            FullPath = dir.FullName
+                            FullPath = dir.FullName,
+                            Parent = parent
                         };
                         //parent.Items.Add(tmpNode);
                         try
                         {
                             parent.Children.Add(tmpNode);
                             ReadDirectories(dir.GetDirectories("*", SearchOption.TopDirectoryOnly), tmpNode);
-                            //_Root.Dispatcher.BeginInvoke(new AddNodeDelegate(AddNode), new object[] { parent, tmpNode, dir.GetDirectories("*", SearchOption.TopDirectoryOnly) });
-                           //_Root.Dispatcher.Invoke((Action)(() => {
-                           //     parent.Items.Add(tmpNode);
-                               
-                           // }));
-
                         }
                         catch (Exception e)
                         {
@@ -141,6 +136,7 @@ namespace WpfApplication1
                 Size = root.Size,
                 Files = root.Files
             };
+            
             foreach (DirectoryTreeElement tmp in root.Children)
             {
                 newRoot.Items.Add(getRootTreeNode(tmp));
