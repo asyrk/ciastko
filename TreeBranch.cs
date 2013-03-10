@@ -11,8 +11,9 @@ namespace WpfApplication1
 	{
 		static TreeChart parentTreeChart;
 		int level;
-		public long totalSize;
+		
 		List<TreeLeaf> leaves;
+		ItemCollection nodes;
 
 		public static TreeChart ParentTreeChart {
 			get { return parentTreeChart; }
@@ -23,12 +24,24 @@ namespace WpfApplication1
 			get { return level; }
 			set { level=value; }
 		}
-		public long TotalSize {
-			get { return totalSize; }
+
+		public List<TreeLeaf> Leaves {
+			get { return leaves; }
+		}
+
+		public ItemCollection Nodes {
+			get { return nodes; }
 		}
 
 
+
+		/*
+		 * leaves list init
+		 * Horizontal StackPanel init
+		 * Add TreeLeaves to list & layout in loop
+		 */
 		public TreeBranch(ItemCollection nodes, int level, string name) {
+			this.nodes=nodes;
 			this.level = level;
 			Name=name;
 
@@ -40,15 +53,8 @@ namespace WpfApplication1
 			
 			StackPanel branchLayout=new StackPanel();
 			branchLayout.Orientation=System.Windows.Controls.Orientation.Horizontal;
-				
-			/*tests*/
-			/*this.totalSize = 75;
-			elements.Add(new TreeLeaf(this,"C",25));
-			branchLayout.Children.Add(elements[elements.Count-1]);
-			elements.Add(new TreeLeaf(this,"D", 50));
-			branchLayout.Children.Add(elements[elements.Count-1]);
-			 */
-			 foreach(DirectoryTreeViewItem n in nodes){
+			
+			foreach(DirectoryTreeViewItem n in nodes){
 				leaves.Add(new TreeLeaf(this,(string)n.Header,n.Size,false));
 				branchLayout.Children.Add(leaves[leaves.Count-1]);
 			 }

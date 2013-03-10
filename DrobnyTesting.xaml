@@ -1,9 +1,0 @@
-﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:WpfApplication1" x:Class="WpfApplication1.DrobnyTesting"
-        Title="DrobnyTesting" Height="236" Width="717">
-    <Grid>
-       
-    </Grid>
-</Window>

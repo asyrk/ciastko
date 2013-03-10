@@ -47,36 +47,32 @@ namespace WpfApplication1
 				TreeLeaf tmp=(TreeLeaf) sender;
 				name = tmp.Name;
 			}
-			
-			System.Diagnostics.Debug.WriteLine(TreeChart.CurrentOpenedBranchLevel+"");
-
 			/*
-			 * if higher leaf demanded remove lower branches & add new branch from that leaf
+			 * IF higher leaf demanded - remove lower branches & add new branch from that leaf
 			 * else add new branch
 			 */
-			/*if (TreeChart.CurrentOpenedBranchLevel != parentBranch.Level){
+			if (TreeChart.CurrentOpenedBranchLevel != parentBranch.Level){
+				
 				int nextLevel = parentBranch.Level + 1;
-				System.Diagnostics.Debug.WriteLine("remove old, nextLevel:" + nextLevel + ", parentBlevel: " + parentBranch.Level + " roznica: " + (TreeChart.CurrentOpenedBranchLevel - parentBranch.Level));
-				TreeBranch.ParentTreeChart.ChartLayout.Children.RemoveRange(nextLevel,TreeChart.CurrentOpenedBranchLevel - parentBranch.Level);
+				//System.Diagnostics.Debug.WriteLine("Removing, nextLevel:"+ nextLevel + ", parentBranchlevel: " + parentBranch.Level + ", currOpenedBLevel: "+ TreeChart.CurrentOpenedBranchLevel +", roznica: " + (TreeChart.CurrentOpenedBranchLevel - parentBranch.Level));
+				TreeBranch.ParentTreeChart.ChartLayout.Children.RemoveRange(nextLevel ,
+					TreeChart.CurrentOpenedBranchLevel - parentBranch.Level);
 
-				TreeBranch newBranch = new TreeBranch(nextLevel, "b2");
-				TreeBranch.ParentTreeChart.ChartLayout.Children.Add(newBranch);
-				TreeChart.CurrentOpenedBranchLevel = nextLevel;
-				System.Diagnostics.Debug.WriteLine("add new branch, currOpenedBLevel: " + TreeChart.CurrentOpenedBranchLevel);
+				int id = parentBranch.Leaves.IndexOf((TreeLeaf)sender, 0); //clicked TreeLeaf id (index) in it's branch
+				DirectoryTreeViewItem newNode = (DirectoryTreeViewItem)parentBranch.Nodes.GetItemAt(id);
+				TreeChart.CurrentOpenedBranchLevel = parentBranch.Level + 1;
+				TreeBranch.ParentTreeChart.Root = newNode;
+				TreeBranch.ParentTreeChart.Ctrl.expandTreeNode(newNode);
 
 			} else {
+				int id = parentBranch.Leaves.IndexOf((TreeLeaf)sender, 0); //clicked TreeLeaf id (index) in it's branch
+				DirectoryTreeViewItem newNode = (DirectoryTreeViewItem)parentBranch.Nodes.GetItemAt(id);
 				TreeChart.CurrentOpenedBranchLevel++;
-				TreeBranch newBranch = new TreeBranch(TreeChart.CurrentOpenedBranchLevel,"b2");
-				TreeBranch.ParentTreeChart.ChartLayout.Children.Add(newBranch);
-				System.Diagnostics.Debug.WriteLine("add new branch, currOpenedBLevel: " + TreeChart.CurrentOpenedBranchLevel);
-			}
-			*/
-			
+				TreeBranch.ParentTreeChart.Root = newNode;
+				TreeBranch.ParentTreeChart.Ctrl.expandTreeNode(newNode);
 
-			
-			
-			
-			this.InvalidateArrange();
+				//System.Diagnostics.Debug.WriteLine("Add new branch, currOpenedBLevel: " + TreeChart.CurrentOpenedBranchLevel);
+			}
 		}
 
 		protected override Size MeasureOverride(Size availableSize)

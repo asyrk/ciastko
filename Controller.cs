@@ -20,8 +20,8 @@ namespace WpfApplication1
             mainWindow = new MainWindow();
             diskSelectDialog = new DiskSelectDialog();
             analizer = new Analizer();
-            chart = new PieChart(this);
-			//chart = new TreeChart(this);
+            //chart = new PieChart(this);
+			chart = new TreeChart(this);
         }
         public void startApp()
         {
@@ -31,7 +31,8 @@ namespace WpfApplication1
             mainWindow.addTreeViewRoot(analizer.Root);
             mainWindow.Show();
             actualNode = analizer.Root;
-            chart.Root = actualNode;
+				//System.Diagnostics.Debug.WriteLine("Root prop in Ctrl");  
+			chart.Root = actualNode; 
             mainWindow.Chart = chart;
         }
 
@@ -44,7 +45,7 @@ namespace WpfApplication1
 
         public void setChartRoot(DirectoryTreeViewItem item)
         {
-            chart.Root = item;
+            //chart.Root = item;
         }
 
         public void OpenExplorer(String path)
