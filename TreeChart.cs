@@ -9,18 +9,22 @@ namespace WpfApplication1
 	class TreeChart : ResultChart
 	{
 		static TextBlock selectedLeafInfo;
-		StackPanel chartLayout;
-		static int currentOpenedBranchLevel=0;
-
 		public static TextBlock SelectedLeafInfo {
 			get { return selectedLeafInfo; }
-		}	
+		}
 
+		static int currentOpenedBranchLevel = 0;
 		public static int CurrentOpenedBranchLevel {
 			get { return currentOpenedBranchLevel; }
 			set { currentOpenedBranchLevel=value; }
 		}
 
+		List<TreeBranch> branches;
+		public List<TreeBranch> Branches {
+			get { return branches; }
+		}
+
+		StackPanel chartLayout;
 		public StackPanel ChartLayout {
 			get { return chartLayout; }
 		}
@@ -36,7 +40,7 @@ namespace WpfApplication1
 				root = value;
 				ItemCollection nodes = Nodes;
 				TreeBranch tmp = new TreeBranch(nodes,currentOpenedBranchLevel, "branch");
-				
+				branches.Add(tmp);
 				//System.Diagnostics.Debug.WriteLine("Add branch in TreeChart (Root) "+ this.GetType().ToString());
 				chartLayout.Children.Add(tmp);
 			}
@@ -51,13 +55,16 @@ namespace WpfApplication1
 			ctrl = c;
 			TreeBranch.ParentTreeChart = this; //define static ref in branches
 
+			branches = new List<TreeBranch>();
+
 			selectedLeafInfo = new TextBlock();
 			selectedLeafInfo.MinHeight = 30.0;
-			selectedLeafInfo.FontSize = 14;
-			selectedLeafInfo.Text = "Current: ";
+			selectedLeafInfo.FontSize = 15;
+			selectedLeafInfo.Text = "Current: , size: ";
 
 			ScrollViewer chartScrollViewer = new ScrollViewer();
 			chartScrollViewer.HorizontalScrollBarVisibility=System.Windows.Controls.ScrollBarVisibility.Auto;
+			chartScrollViewer.VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
 
 			chartLayout = new StackPanel();
 			chartLayout.Orientation=System.Windows.Controls.Orientation.Vertical;
@@ -73,14 +80,17 @@ namespace WpfApplication1
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			Size maxSize = new Size();
-			foreach (UIElement child in Children)
-			{
-				child.Measure(availableSize);
-				maxSize.Height = Math.Max(child.DesiredSize.Height, maxSize.Height);
-				maxSize.Width = Math.Max(child.DesiredSize.Width, maxSize.Width);
+			//System.Diagnostics.Debug.WriteLine("TreeChart MeasuerOverride ,aSize " + availableSize.Width);
+			Size idealSize = new Size();
+
+			double windowSize = availableSize.Width;
+			foreach(TreeBranch branch in chartLayout.Children){
+				//System.Diagnostics.Debug.WriteLine("Set branch width "+ windowSize);
+				branch.Width = windowSize;
 			}
-			return maxSize;
+			idealSize.Width = Width;
+			return idealSize;
+			
 		}
 
 		protected override Size ArrangeOverride(Size finalSize)

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Media;
 
@@ -9,31 +7,39 @@ namespace WpfApplication1
 {
 	class TreeBranch : Panel
 	{
-		static TreeChart parentTreeChart;
-		int level;
+		StackPanel branchLayout;
+		public StackPanel BranchLayout{
+			get { return branchLayout; }
+		}
 		
-		List<TreeLeaf> leaves;
-		ItemCollection nodes;
-
+		static TreeChart parentTreeChart;
 		public static TreeChart ParentTreeChart {
 			get { return parentTreeChart; }
 			set { parentTreeChart=value; }
 		}
 
+		int level;
 		public int Level {
 			get { return level; }
 			set { level=value; }
 		}
 
+		List<TreeLeaf> leaves;
 		public List<TreeLeaf> Leaves {
 			get { return leaves; }
 		}
 
+		ItemCollection nodes;
 		public ItemCollection Nodes {
 			get { return nodes; }
 		}
 
-
+		SolidColorBrush BranchColor {
+			get {
+				int color = (level >= TreeLeaf.COLOR_TAB.Length) ? level - TreeLeaf.COLOR_TAB.Length : level;
+				return TreeLeaf.COLOR_TAB[color];
+			}
+		}
 
 		/*
 		 * leaves list init
@@ -46,15 +52,15 @@ namespace WpfApplication1
 			Name=name;
 
 			HorizontalAlignment=System.Windows.HorizontalAlignment.Stretch;
-			Height=50;
-			Background=Brushes.Gray;
+			Height=65;
+			Background=Brushes.White;
 
 			leaves = new List<TreeLeaf>();
 			
-			StackPanel branchLayout=new StackPanel();
+			branchLayout=new StackPanel();
 			branchLayout.Orientation=System.Windows.Controls.Orientation.Horizontal;
 			
-			
+			System.Diagnostics.Debug.WriteLine("count "+leaves.Count);
 			foreach(DirectoryTreeViewItem n in nodes){
 				leaves.Add(new TreeLeaf(this,(string)n.Header,n.Size,false));
 				branchLayout.Children.Add(leaves[leaves.Count-1]);
@@ -70,18 +76,20 @@ namespace WpfApplication1
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			Size maxSize = new Size();
-			foreach (UIElement child in Children)
+			//System.Diagnostics.Debug.WriteLine("TreeBranch MeasuerOverride ,aSize " + availableSize.Width + "width: " + Width);
+			Size idealSize = new Size();
+			
+			foreach (TreeLeaf leaf in branchLayout.Children)
 			{
-				child.Measure(availableSize);
-				maxSize.Height = Math.Max(child.DesiredSize.Height, maxSize.Height);
-				maxSize.Width = Math.Max(child.DesiredSize.Width, maxSize.Width);
+				leaf.Width = leaf.Ratio * Width;
 			}
-			return maxSize;
+			idealSize.Width = Width;
+			return idealSize;
 		}
 
 		protected override Size ArrangeOverride(Size finalSize)
 		{
+			
 			foreach (UIElement child in Children)
 			{
 				child.Arrange(new Rect(finalSize));

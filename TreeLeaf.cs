@@ -8,45 +8,56 @@ namespace WpfApplication1
 {
 	class TreeLeaf : Panel
 	{
+		int id;
 		string leafName;
 		long leafSize;
 		Label nameLabel=new Label();
 		bool isFile;
 
-		//private Size size;
-		//private Color fillColor;
+		double ratio;
+		public double Ratio {
+			get { return ratio; }
+		}
+
+		SolidColorBrush LeafColor {
+			get {
+				int color = (id + parentBranch.Level >= COLOR_TAB.Length) ? (id + parentBranch.Level - COLOR_TAB.Length) : id + parentBranch.Level;
+				//System.Diagnostics.Debug.WriteLine("leaf color " + color);
+				return COLOR_TAB[color];
+			}
+		}
 
 		TreeBranch parentBranch;
 		public TreeBranch ParentBranch {
 			get { return parentBranch; }
 		}
 
+
 		public TreeLeaf(TreeBranch parentTreeBranch, String name, long size, bool isFile)
 		{
 			this.MouseDown += new MouseButtonEventHandler(TreeElem_MouseDown);
 
 			this.parentBranch=parentTreeBranch;
+			this.id = parentBranch.Leaves.Count;
 			this.isFile=isFile;
 			leafName=name;
 			leafSize=size;
 
-			/*size & color */
-			
-			double windowSize = (Width > Height) ? Height : Width;
-			double parentSize = TreeBranch.ParentTreeChart.Root.Size;
-			double ratio = size * 100.0 / parentSize;
-			System.Diagnostics.Debug.WriteLine("size:" + size + ", parent size: " + parentSize +", ratio: "+ ratio);
+			/*ratio */
 
-			Width=100;
-			Height=50;
+			double parentSize = TreeBranch.ParentTreeChart.Root.Size;
+			ratio = size * 1.0 / parentSize;
+			
+
+			Height=60;
 			//Name=name;
 			HorizontalAlignment=System.Windows.HorizontalAlignment.Left;
 			VerticalAlignment=System.Windows.VerticalAlignment.Top;
-			Background=Brushes.Beige;
-			Margin=new Thickness(0,5,5,0);
+			Background = LeafColor;
+			Margin=new Thickness(0,0,0,0);
 			
 			nameLabel.Content=name;
-			nameLabel.FontSize=17;
+			nameLabel.FontSize=14;
 
 			Children.Add(nameLabel);
 		}
@@ -54,7 +65,8 @@ namespace WpfApplication1
 		public void TreeElem_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			TreeLeaf leaf = (TreeLeaf) sender;
-			TreeChart.SelectedLeafInfo.Text = "Current: "+ leaf.leafName +", size: "+ leaf.leafSize;
+			
+			TreeChart.SelectedLeafInfo.Text = "Current: "+ leaf.leafName +", size: "+  TreeBranch.ParentTreeChart.FormatSize(leaf.leafSize);
 
 			if (isFile) return; //no action if leaf is a file
 
@@ -72,14 +84,17 @@ namespace WpfApplication1
 				int id = parentBranch.Leaves.IndexOf((TreeLeaf)sender, 0); //clicked TreeLeaf id (index) in it's branch
 				DirectoryTreeViewItem newNode = (DirectoryTreeViewItem)parentBranch.Nodes.GetItemAt(id);
 				TreeChart.CurrentOpenedBranchLevel = parentBranch.Level + 1;
-				TreeBranch.ParentTreeChart.Root = newNode;
+				TreeBranch.ParentTreeChart.Root = newNode; //creates new Branch
+				parentBranch.Background = Background;
 				TreeBranch.ParentTreeChart.Ctrl.expandTreeNode(newNode);
 
 			} else {
 				int id = parentBranch.Leaves.IndexOf((TreeLeaf)sender, 0); //clicked TreeLeaf id (index) in it's branch
 				DirectoryTreeViewItem newNode = (DirectoryTreeViewItem)parentBranch.Nodes.GetItemAt(id);
 				TreeChart.CurrentOpenedBranchLevel++;
-				TreeBranch.ParentTreeChart.Root = newNode;
+				TreeBranch.ParentTreeChart.Root = newNode; //creates new Branch
+				parentBranch.Background = Background;
+				//TreeBranch.ParentTreeChart.Branches[TreeBranch.ParentTreeChart.Branches.Count-1].Background = Background;
 				TreeBranch.ParentTreeChart.Ctrl.expandTreeNode(newNode);
 
 				//System.Diagnostics.Debug.WriteLine("Add new branch, currOpenedBLevel: " + TreeChart.CurrentOpenedBranchLevel);
@@ -89,14 +104,8 @@ namespace WpfApplication1
 		protected override Size MeasureOverride(Size availableSize)
 		{
 			Size maxSize = new Size();
-
-			foreach (UIElement child in Children)
-			{
-				child.Measure(availableSize);
-				maxSize.Height = Math.Max(child.DesiredSize.Height, maxSize.Height);
-				maxSize.Width = Math.Max(child.DesiredSize.Width, maxSize.Width);
-			}
-
+			//System.Diagnostics.Debug.WriteLine("TreeLeaf MeasureO, aSize: " + availableSize.Width);
+			
 			return maxSize;
 		}
 
@@ -109,5 +118,9 @@ namespace WpfApplication1
 			}
 			return finalSize;
 		}
+
+		public static SolidColorBrush[] COLOR_TAB = { Brushes.BlueViolet, Brushes.DarkOrange, Brushes.DarkKhaki, Brushes.Firebrick, Brushes.LightCoral, Brushes.LemonChiffon,
+                                               Brushes.LightPink, Brushes.LightSkyBlue, Brushes.Silver, Brushes.Tan, Brushes.Red, Brushes.Purple,  Brushes.OrangeRed};
 	}
+
 }
