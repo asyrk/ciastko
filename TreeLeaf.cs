@@ -21,9 +21,9 @@ namespace WpfApplication1
 
 		SolidColorBrush LeafColor {
 			get {
-				int color = (id + parentBranch.Level >= COLOR_TAB.Length) ? (id + parentBranch.Level - COLOR_TAB.Length) : id + parentBranch.Level;
-				//System.Diagnostics.Debug.WriteLine("leaf color " + color);
-				return COLOR_TAB[color];
+				int colorIndex = (id + parentBranch.Level) % COLOR_TAB.Length;
+				System.Diagnostics.Debug.WriteLine("id " + id + " ,leaf color index " + colorIndex);
+				return COLOR_TAB[colorIndex];
 			}
 		}
 
