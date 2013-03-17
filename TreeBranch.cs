@@ -36,8 +36,9 @@ namespace WpfApplication1
 
 		SolidColorBrush BranchColor {
 			get {
-				int color = (level >= TreeLeaf.COLOR_TAB.Length) ? level - TreeLeaf.COLOR_TAB.Length : level;
-				return TreeLeaf.COLOR_TAB[color];
+				//int color = (level >= TreeLeaf.COLOR_TAB.Length) ? level - TreeLeaf.COLOR_TAB.Length : level;
+				 
+				return TreeLeaf.COLOR_TAB[level % TreeLeaf.COLOR_TAB.Length];
 			}
 		}
 

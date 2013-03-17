@@ -88,7 +88,7 @@ namespace WpfApplication1
 				//System.Diagnostics.Debug.WriteLine("Set branch width "+ windowSize);
 				branch.Width = windowSize;
 			}
-			idealSize.Width = Width;
+			//idealSize.Width = Width;
 			return idealSize;
 			
 		}
